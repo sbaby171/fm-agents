@@ -6,6 +6,7 @@ Some working assumptions:
 """
 
 
+# ====================================================================|=======: 
 class Agent(object):
     def __init__(self, model, port, api_key="EMPTY"): 
         self.model = model
@@ -21,6 +22,19 @@ class Agent(object):
                 {
                     "role": "user",
                     "content": "What causes a red moon?"
+                }
+            ]
+        )# end of completion 
+        print(completion.choices[0].message.content)
+
+    def ask(self,question): 
+        completion = self._client.chat.completions.create(
+            model = self.model, 
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {
+                    "role": "user",
+                    "content": question, 
                 }
             ]
         )# end of completion 
@@ -54,4 +68,25 @@ def __handle_clargs():
 if __name__ == "__main__": 
     args = __handle_clargs()
     agent0 = Agent(model = args.model, port=args.port) 
-    agent0._test_prompt()
+    #agent0._test_prompt()
+
+
+
+    # Receive task: 
+    task = "Create a hello-world Python program"
+
+    final_task = f"""
+    Assume you are software developer and have been given the following 
+    task: 
+
+    '{task}'
+
+
+    How would you go about resolving it? What would your steps be? 
+    """
+ 
+    agent0.ask(final_task)
+
+
+
+
