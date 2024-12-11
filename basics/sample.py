@@ -35,6 +35,7 @@ def __handle_clargs():
                          "and ports for OpenAI API compatibility.")
     parser.add_argument("--port", help="If not provided, port number will "\
                         "be inferred from `backend` argument.")
+    parser.add_argument("-d", "--debug", action="store_true")
     # ----------------------------------------------------------------|-------:
     args = parser.parse_args()
     # ----------------------------------------------------------------|-------:
@@ -45,9 +46,9 @@ def __handle_clargs():
             args.port = 11434
         elif args.backend == "vllm": 
             args.port = 8000
-    for k,v in args.__dict__.items(): 
-        print(k,v) 
-        
+    if args.debug: 
+        for k,v in args.__dict__.items(): 
+            print("DEBUG: [_handle_clargs]: %12s --> %s"%(k,v)) 
     return args
 # ====================================================================|=======: 
 if __name__ == "__main__": 
